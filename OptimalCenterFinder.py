@@ -7,12 +7,12 @@ def calculate_square_corners(center, map_size):
 # converge result    corner2 = (cx + offset, cy, cz + offset)
 
 # returns calculated corners
-    return cx - offset, cy, cz - offset, cx + offset, cy, cz + offset
+    return (cx - offset, cy, cz - offset), (cx + offset, cy, cz + offset)
 
 
 def get_center_input():
     try:
-        coords = input("Enter the center block's coordinates (x y z): ")
+        coords = input("Enter the center block's coordinates (x y z or x,y,z): ").replace(",", " ").split()
         if len(coords) != 3:
             raise ValueError("Please provide exactly THREE coordinates.")
         return tuple(map(int, coords))
@@ -25,7 +25,7 @@ def get_center_input():
 # map size
 def get_map_size():
     try:
-        size = int(input("Enter the map size (example: 9, 300, etc): "))
+        size = int(input("Enter the map size (example: 9, 300, etc): ").strip())
         if size <= 0:
             raise ValueError("The given map size has to be a positive integer.")
         return size
