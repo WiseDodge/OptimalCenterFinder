@@ -1,51 +1,30 @@
 def calculate_square_corners(center, map_size):
     cx, cy, cz = center
     is_odd = map_size % 2 != 0
+    center_type = "1-block center" if is_odd else "2x2 center"
+    
     offset = (map_size - 1) // 2 if is_odd else map_size // 2
     
-# converge result    corner1 = (cx - offset, cy, cz - offset)
-# converge result    corner2 = (cx + offset, cy, cz + offset)
+    corner1 = (cx - offset, cy, cz - offset)
+    corner2 = (cx + offset, cy, cz + offset)
+
+    recommendedCenter = f"For a map size of {map_size}, a {center_type} is recommended for improving symmetry."
 
 # returns calculated corners
-    return (cx - offset, cy, cz - offset), (cx + offset, cy, cz + offset)
-
-
-def get_center_input():
-    try:
-        coords = input("Enter the center block's coordinates (x y z or x,y,z): ").replace(",", " ").split()
-        if len(coords) != 3:
-            raise ValueError("Please provide exactly THREE coordinates.")
-        return tuple(map(int, coords))
-        
-    except ValueError as e:    
-        print(f"The input is invalid: {e}. Try again.")
-        return get_center_input()
-
-
-# map size
-def get_map_size():
-    try:
-        size = int(input("Enter the map size (example: 9, 300, etc): ").strip())
-        if size <= 0:
-            raise ValueError("The given map size has to be a positive integer.")
-        return size
-    
-    except ValueError as e:
-        print(f"The input is invalid: {e}. Try again.")
-        return get_map_size()
-
-# center_block = (-530, 90, -145)
-# map_size = 9
+    return recommendedCenter, corner1, corner2
 
 
 
 if __name__ == "__main__":
-    center_block = get_center_input()
-    map_size = get_map_size()
+    print("Enter the center block's coordinates (x y z or x,y,z):")
+    center_block = tuple(map(int, input().replace(",", " ").split()))
+    
+    print("Enter the map size (example: 9, 300, etc): ")
+    map_size = int(input().strip())
 
-    pos1, pos2  = calculate_square_corners(center_block, map_size)
+    recommendedCenter, pos1, pos2  = calculate_square_corners(center_block, map_size)
 
     # output
-    print("\nResults:")
-    print(f"Pos1: {pos1}") # north
-    print(f"Pos2: {pos2}") # south
+    print("\nRecommendation:", recommendedCenter)
+    print(f"Corner 1: {pos1}") # north
+    print(f"Corner 2: {pos2}") # south
