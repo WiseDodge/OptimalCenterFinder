@@ -10,10 +10,13 @@ def calculate_square_corners(center, map_size):
     return (cx - offset, cy, cz - offset), (cx + offset, cy, cz + offset)
 
 def attempt_clipboard_center():
-    clipboard_txt = pyperclip.paste().strip()
-    vals = re.split(r"[\s,]+", clipboard_txt)
-    if len(vals) == 3 and all(v.lstrip("-").isdigit() for v in vals):
-        return tuple(map(int, vals))
+    try:
+        clipboard_txt = pyperclip.paste().strip()
+        vals = re.split(r"[\s,]+", clipboard_txt)
+        if len(vals) == 3 and all(v.lstrip("-").isdigit() for v in vals):
+            return tuple(map(int, vals))
+    except Exception as e:
+        print(f"Error accessing clipboard: {e}")
     return None
 
 def get_center_input():
