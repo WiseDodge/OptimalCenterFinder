@@ -17,14 +17,24 @@ def attempt_clipboard_center():
     return None
 
 def get_center_input():
-    try:
-        coords = input("Enter the center block coordinates (x y z or x,y,z): ").replace(",", " ").split()
-        if len(coords) != 3:
-            raise ValueError("Please provide exactly three coordinates.")
-        return tuple(map(int, coords))
-    except ValueError as e:
-        print(f"The input is invalid: {e}. Try again.")
-        return get_center_input()
+    clipboard_coords = attempt_clipboard_center()
+    if clipboard_coords:
+        print(f"ggs. Auto-detected your coordinates from clipboard: {clipboard_coords}")
+        use_clipboard = input("use these coordinates? (y/n): ").strip().lower()
+        if use_clipboard == "y":
+            return clipboard_coords
+
+    input_recieved = False
+    coords = ()
+    while not input_recieved:
+        try:
+            coords = input("Enter the center block coordinates (x y z or x,y,z): ").replace(",", " ").split()
+            if len(coords) != 3:
+                raise ValueError("Please provide exactly three coordinates.")
+            return tuple(map(int, coords))
+        except ValueError as e:
+            print(f"The input is invalid: {e}. Try again.")
+            return get_center_input()
 
 
 def get_map_size():
