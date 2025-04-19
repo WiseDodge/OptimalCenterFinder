@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up Python 3.10 or 3.11
+    - name: Set up Python 3.11 (or change to 3.10)
       uses: actions/setup-python@v3
       with:
         python-version: "3.11"  # You can change this to "3.10" if needed
@@ -28,7 +28,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt || echo "requirements.txt not found, skipping..."
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        else
+          echo "requirements.txt not found, skipping..."
+        fi
         pip install flake8 pytest  # Always install linting and testing tools
 
     - name: Lint with flake8
@@ -39,5 +43,5 @@ jobs:
 
     - name: Test with pytest
       run: |
-        # Run tests with pytest, using custom configuration if present
-        pytest --maxfail=3 --disable-warnings --config=pytest.ini
+        # Run tests with pytest
+        pytest --maxfail=3 --disable-warnings
