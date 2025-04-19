@@ -17,31 +17,47 @@ def attempt_clipboard_center():
     return None
 
 def get_center_input():
-    clipboard_coords = attempt_clipboard_center()
-    if clipboard_coords:
-        print(f"ggs. Auto-detected your coordinates from clipboard: {clipboard_coords}")
-        use_clipboard = input("use these coordinates? (y/n): ").strip().lower()
-        if use_clipboard == "y":
-            return clipboard_coords
+    retry_count = 0
+    while retry_count < 5:
+        clipboard_coords = attempt_clipboard_center()
+        if clipboard_coords:
+            print(f"ggs. Auto-detected your coordinates from clipboard: {clipboard_coords}")
+            use_clipboard = input("Use these coordinates? (y/n): ").strip().lower()
+            if use_clipboard == "y":
+                return clipboard_coords
 
-    input_recieved = False
-    coords = ()
-    while not input_recieved:
-        try:
-            coords = input("Enter the center block coordinates (x y z or x,y,z): ").replace(",", " ").split()
-            if len(coords) != 3:
-                raise ValueError("Please provide exactly three coordinates.")
-            return tuple(map(int, coords))
-        except ValueError as e:
-            print(f"The input is invalid: {e}. Try again.")
-            return get_center_input()
+        # manual input if clipboard wasn't used
+        coords = input("Enter the center block coordinates (x y z or x,y,z), or 'x' to exit: ").replace(",", " ").split()
+        if coords == ['x']:
+            print("Exiting the program.")
+            exit()
+            
+        if len(coords) != 3:
+            print("Please provide exactly three coordinates (e.g., x y z).")
+        else:
+            try:
+                return tuple(map(int, coords))
+            except ValueError:
+                print("Invalid input: coordinates must be integers.")
+        
+        retry_count += 1
+        if retry_count >= 3:
+            print("Too many invalid attempts. Exiting program.")
+            exit()
 
+    # fallback
+    print("Error: Could not process the coordinates.")
+    exit()
 
 def get_map_size():
+    size_input = input("Enter map size (e.g., 9, 300), or 'x' to exit: ").strip()
+    if size_input.lower() == 'x':
+        print("Exiting program.")
+        exit()
     try:
-        size = int(input("Enter map size (e.g., 9, 300): ").strip())
+        size = int(size_input)
         if size <= 0:
-            raise ValueError("The Map size must be a positive integer.")
+            raise ValueError("The map size must be a positive integer.")
         return size
     except ValueError as e:
         print(f"The input is invalid: {e}. Try again.")
