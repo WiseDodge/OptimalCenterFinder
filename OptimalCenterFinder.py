@@ -28,8 +28,7 @@ def get_map_size():
         print(f"The input is invalid: {e}. Try again.")
         return get_map_size()
 
-
-if __name__ == "__main__":
+def run():
     center_block = get_center_input()
     map_size = get_map_size()
 
@@ -43,3 +42,6 @@ if __name__ == "__main__":
     print(f"For a map size of {map_size}, a {center_type} is recommended for better symmetry.")
     print(f"Opposite Corner 1: {corner1}")
     print(f"Opposite Corner 2: {corner2}")
+
+if __name__ == "__main__":
+    run()
