@@ -36,4 +36,4 @@ jobs:
     - name: Test with pytest
       run: |
         export PYTHONPATH=$(pwd)/src
-        pytest --maxfail=3 --disable-warnings --config=pytest.ini
+        pytest --maxfail=3 --disable-warnings
