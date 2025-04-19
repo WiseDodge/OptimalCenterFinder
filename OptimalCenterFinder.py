@@ -1,3 +1,6 @@
+import pyperclip
+import re
+
 def calculate_square_corners(center, map_size):
     cx, cy, cz = center
     is_odd = map_size % 2 != 0
@@ -6,6 +9,12 @@ def calculate_square_corners(center, map_size):
 # returns calculated corners
     return (cx - offset, cy, cz - offset), (cx + offset, cy, cz + offset)
 
+def attempt_clipboard_center():
+    clipboard_txt = pyperclip.paste().strip()
+    vals = re.split(r"[\s,]+", clipboard_txt)
+    if len(vals) == 3 and all(v.lstrip("-").isdigit() for v in vals):
+        return tuple(map(int, vals))
+    return None
 
 def get_center_input():
     try:
