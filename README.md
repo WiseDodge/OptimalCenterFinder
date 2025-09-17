@@ -1,4 +1,5 @@
 # OptimalCenterFinder 🗺️
+![GitHub last commit](https://img.shields.io/github/last-commit/WiseDodge/OptimalCenterFinder)
 
 **OptimalCenterFinder** is a Python script that calculates the opposing corners of a square map, given a center coordinate and map size. It’s particularly useful for tools like **WorldEdit**, **Schematica**, and precise **map positioning**. The program supports both odd and even map sizes (1-block vs 2×2 centers), and it allows for auto-detection of coordinates from your clipboard or manual input.
 
